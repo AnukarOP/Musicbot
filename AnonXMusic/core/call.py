@@ -9,12 +9,19 @@ from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import (
     AlreadyJoinedError,
     NoActiveGroupCall,
+    TelegramServerError,
 )
+from pytgcalls.types import StreamType
 from pytgcalls.types import Update
-from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
-from pytgcalls.types.input_stream.quality import HighQualityAudio, MediumQualityVideo
-from pytgcalls.types.stream import StreamAudioEnded
 
+# Speculative correction: Trying common paths for AudioPiped and AudioVideoPiped
+try:
+    from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
+except ImportError:
+    from pytgcalls.input_stream import AudioPiped, AudioVideoPiped  # Adjusted path
+    from pytgcalls.input_stream.quality import HighQualityAudio, MediumQualityVideo
+    from pytgcalls.stream import StreamAudioEnded
+    
 import config
 from AnonXMusic import LOGGER, YouTube, app
 from AnonXMusic.misc import db
